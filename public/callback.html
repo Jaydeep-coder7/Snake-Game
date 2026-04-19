@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><title>Spotify Auth Callback</title></head>
+<body>
+  <script>
+    if (window.opener) {
+      // For Implicit Grant, token is in hash
+      const hash = window.location.hash;
+      const params = new URLSearchParams(hash.substring(1));
+      const accessToken = params.get('access_token');
+      
+      if (accessToken) {
+        window.opener.postMessage(
+          { type: 'SPOTIFY_AUTH_SUCCESS', token: accessToken },
+          '*'
+        );
+      }
+      window.close();
+    } else {
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>
